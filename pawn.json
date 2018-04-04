@@ -6,5 +6,8 @@
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes"
+	],
+	"dev_dependencies": [
+		"ScavengeSurvive/action-text"
 	]
 }
