@@ -90,7 +90,7 @@ stock GetPlayerStateFrame(playerid, index, frame[E_BUFFERED_STATE]) {
     return 0;
 }
 
-// GetPlayerStateFrame stores into `frames` all available frames of state history.
+// GetPlayerStateFrames stores into `frames` all available frames of state history.
 stock GetPlayerStateFrames(playerid, frames[MAX_STATE_BUFFER_SIZE][E_BUFFERED_STATE]) {
     if(!IsPlayerConnected(playerid)) {
         return 1;
