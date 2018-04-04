@@ -32,29 +32,29 @@ forward _stateBuffer_captureFrame();
 
 
 enum E_BUFFERED_STATE {
-    timestamp, // frame timestamp
-    tickstamp, // GetTickCount result - this is stored for higher granularity
-    gameState, // the result of GetPlayerState
+    stbuf_timestamp, // frame timestamp
+    stbuf_tickstamp, // GetTickCount result - this is stored for higher granularity
+    stbuf_gameState, // the result of GetPlayerState
 
     // this is the on-foot position, from GetPlayerPos and GetPlayerFacingAngle
-    Float:posPedX,
-    Float:posPedY,
-    Float:posPedZ,
-    Float:rotPedZ,
+    Float:stbuf_posPedX,
+    Float:stbuf_posPedY,
+    Float:stbuf_posPedZ,
+    Float:stbuf_rotPedZ,
 
     // velocity is stored while on foot and in a vehicle
-    Float:velocityX,
-    Float:velocityY,
-    Float:velocityZ,
+    Float:stbuf_velocityX,
+    Float:stbuf_velocityY,
+    Float:stbuf_velocityZ,
 
     // vehicle-specific position data captured only when IsPlayerInAnyVehicle
-    Float:posVehX,
-    Float:posVehY,
-    Float:posVehZ,
-    Float:rotVehW,
-    Float:rotVehX,
-    Float:rotVehY,
-    Float:rotVehZ,
+    Float:stbuf_posVehX,
+    Float:stbuf_posVehY,
+    Float:stbuf_posVehZ,
+    Float:stbuf_rotVehW,
+    Float:stbuf_rotVehX,
+    Float:stbuf_rotVehY,
+    Float:stbuf_rotVehZ,
 }
 
 static
@@ -128,20 +128,20 @@ public _stateBuffer_captureFrame() {
         // a temporary local frame, allocated each player for proper zeroing
         new frameData[E_BUFFERED_STATE];
 
-        frameData[timestamp] = gettime();
-        frameData[tickstamp] = GetTickCount();
-        frameData[gameState] = GetPlayerState(playerid);
+        frameData[stbuf_timestamp] = gettime();
+        frameData[stbuf_tickstamp] = GetTickCount();
+        frameData[stbuf_gameState] = GetPlayerState(playerid);
 
-        GetPlayerPos(playerid, frameData[posPedX], frameData[posPedY], frameData[posPedZ]);
-        GetPlayerFacingAngle(playerid, frameData[rotPedZ]);
+        GetPlayerPos(playerid, frameData[stbuf_posPedX], frameData[stbuf_posPedY], frameData[stbuf_posPedZ]);
+        GetPlayerFacingAngle(playerid, frameData[stbuf_rotPedZ]);
 
         if(IsPlayerInAnyVehicle(playerid)) {
             vehicleid = GetPlayerVehicleID(playerid);
-            GetVehicleVelocity(vehicleid, frameData[velocityX], frameData[velocityY], frameData[velocityZ]);
-            GetVehiclePos(vehicleid, frameData[posVehX], frameData[posVehY], frameData[posVehZ]);
-            GetVehicleRotationQuat(vehicleid, frameData[rotVehW], frameData[rotVehX], frameData[rotVehY], frameData[rotVehZ]);
+            GetVehicleVelocity(vehicleid, frameData[stbuf_velocityX], frameData[stbuf_velocityY], frameData[stbuf_velocityZ]);
+            GetVehiclePos(vehicleid, frameData[stbuf_posVehX], frameData[stbuf_posVehY], frameData[stbuf_posVehZ]);
+            GetVehicleRotationQuat(vehicleid, frameData[stbuf_rotVehW], frameData[stbuf_rotVehX], frameData[stbuf_rotVehY], frameData[stbuf_rotVehZ]);
         } else {
-            GetPlayerVelocity(playerid, frameData[velocityX], frameData[velocityY], frameData[velocityZ]);
+            GetPlayerVelocity(playerid, frameData[stbuf_velocityX], frameData[stbuf_velocityY], frameData[stbuf_velocityZ]);
         }
 
         stateBufferFrames[playerid][stateBufferFrame[playerid]] = frameData;
