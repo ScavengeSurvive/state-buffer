@@ -39,6 +39,29 @@ particular point in history, as long as it's within the buffer history.
 This can be used to "re-play" a player's actions over the previous 25 seconds,
 very useful for administrative work.
 
+### Example - Positional Data
+
+To get historical position data from a player:
+
+```pawn
+new frames[MAX_STATE_BUFFER_SIZE][E_BUFFERED_STATE];
+GetPlayerStateFrames(playerid, frames);
+
+new next;
+new Float:distance;
+for(new i; i < MAX_STATE_BUFFER_SIZE - 1; ++i) {
+    next = i + 1; // the next frame
+
+    // add up distance of the past 25 seconds
+    distance += GetDistance3D(
+        frames[next][posPedX], frames[next][posPedY], frames[next][posPedZ],
+        frames[i][posPedX], frames[i][posPedY], frames[i][posPedZ]
+    );
+}
+
+printf("Over the last 25.6 seconds, player moved %fm", distance);
+```
+
 ## Development
 
 The library is currently in an early stage and more states can be added easily

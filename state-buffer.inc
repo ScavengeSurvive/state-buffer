@@ -31,7 +31,7 @@
 forward _stateBuffer_captureFrame();
 
 
-static enum E_BUFFERED_STATE {
+enum E_BUFFERED_STATE {
     timestamp, // frame timestamp
     tickstamp, // GetTickCount result - this is stored for higher granularity
     gameState, // the result of GetPlayerState
@@ -86,6 +86,17 @@ stock GetPlayerStateFrame(playerid, index, frame[E_BUFFERED_STATE]) {
     }
 
     frame = stateBufferFrames[playerid][stateBufferFrame[playerid] - index];
+
+    return 0;
+}
+
+// GetPlayerStateFrame stores into `frames` all available frames of state history.
+stock GetPlayerStateFrames(playerid, frames[MAX_STATE_BUFFER_SIZE][E_BUFFERED_STATE]) {
+    if(!IsPlayerConnected(playerid)) {
+        return 1;
+    }
+
+    frames = stateBufferFrames[playerid];
 
     return 0;
 }
